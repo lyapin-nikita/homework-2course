@@ -1,0 +1,5 @@
+﻿  func_task3.cpp
+  maincode.cpp
+D:\project_programming\project_vs22\homework\3sem\homework1\homework1_task3\maincode.cpp(10,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+  Создание кода...
+  homework1_task3.vcxproj -> D:\project_programming\project_vs22\homework\3sem\homework1\x64\Debug\homework1_task3.exe
