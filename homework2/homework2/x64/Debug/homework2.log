@@ -1,2 +1,6 @@
 ﻿  homework2.cpp
+  myVector.cpp
+D:\project_programming\project_vs22\homework\3sem\homework2\homework2\myVector.cpp(40,15): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+D:\project_programming\project_vs22\homework\3sem\homework2\homework2\myVector.cpp(53,69): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+  Создание кода...
   homework2.vcxproj -> D:\project_programming\project_vs22\homework\3sem\homework2\x64\Debug\homework2.exe

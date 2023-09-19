@@ -29,11 +29,16 @@ int main()
 
     my3mVector test1(1, -1, 1);
     my3mVector test2(2, 3, 2);
-    test1.printLength();
+    /*test1.printLength();
     cout << endl;
     test2.printLength();
     cout << endl << test1 * test2;
 
-    cout << endl << test2.vectorCos(test1);
+    cout << endl << test2.vectorCos(test1);*/
+
+     cout << test1;
+
+
+
 }
 

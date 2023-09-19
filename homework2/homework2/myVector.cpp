@@ -63,3 +63,16 @@ void my3mVector::printLength()
 {
 	cout << length;
 }
+
+std::ostream& operator<<(std::ostream& stream, const my3mVector& vec)
+{
+	stream << "numbers: ";
+	for (int i = 0; i < 3; i++) {
+		stream << vec.numbers[i];
+		if (i != 2) {
+			stream << ", ";
+		}
+	}
+	return stream;
+}
+

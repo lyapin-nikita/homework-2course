@@ -24,7 +24,8 @@ public:
 	my3mVector operator-(const my3mVector& other);
 	my3mVector& operator=(const my3mVector& other);
 	long operator*(const my3mVector& other); 
-
+	friend std::ostream& operator<<(std::ostream& stream, const my3mVector& vec);
 private:
 	void countLength();
 };
+
