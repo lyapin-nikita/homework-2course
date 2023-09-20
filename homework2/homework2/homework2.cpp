@@ -27,16 +27,20 @@ int main()
     cout << endl;
     test3.printVector();*/
 
-    my3mVector test1(1, -1, 1);
-    my3mVector test2(2, 3, 2);
-    /*test1.printLength();
+    //my3mVector test1(1, -1, 1);
+    //my3mVector test2(2, 3, 2);
+    my3mVector test3;
+    my3mVector test4;
+    cin >> test3;
     cout << endl;
-    test2.printLength();
-    cout << endl << test1 * test2;
+    cin >> test4;
+    cout << endl << test3 << endl << test4 << endl << endl;
 
-    cout << endl << test2.vectorCos(test1);*/
-
-     cout << test1;
+    cout << test3 + test4 << endl;
+    cout << test3 - test4 << endl;
+    cout << test3 * test4 << endl;
+    try { cout << test3.vectorCos(test4); }
+    catch (...) { cout << "error: divide into 0!"; }
 
 
 

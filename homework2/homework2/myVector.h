@@ -5,27 +5,25 @@
 class my3mVector
 {
 private:
-	int numbers[3];
+	float numbers[3];
 	float length;
 
 
 
 public:
 	my3mVector();
-	my3mVector(int n1, int n2, int n3);
+	my3mVector(float n1, float n2, float n3);
+	my3mVector(const my3mVector& vec);
 
-
-	void printVector();
-	void printLength();
-	float vectorCos(const my3mVector& other);
-
+	
 
 	my3mVector operator+(const my3mVector& other);
 	my3mVector operator-(const my3mVector& other);
-	my3mVector& operator=(const my3mVector& other);
-	long operator*(const my3mVector& other); 
+	const my3mVector& operator=(const my3mVector& other);
+	double operator*(my3mVector& other); 
 	friend std::ostream& operator<<(std::ostream& stream, const my3mVector& vec);
-private:
+	friend std::istream& operator>>(std::istream& stream, my3mVector& vec);
 	void countLength();
+	float vectorCos(my3mVector& other);
 };
 
