@@ -48,6 +48,11 @@ void my3mVector::countLength()
 	length = sqrt(pow(numbers[0], 2) + pow(numbers[1], 2) + pow(numbers[2], 2));
 }
 
+float my3mVector::getLength()
+{
+	return this->length;
+}
+
 const my3mVector& my3mVector::operator=(const my3mVector& other)
 {
 	if (this == &other) { return *this; }
@@ -59,7 +64,7 @@ const my3mVector& my3mVector::operator=(const my3mVector& other)
 float my3mVector::vectorCos(my3mVector& other)
 {
 	if (this->length == 0 || other.length == 0) { throw - 5; }
-	return acos((*this * other) / (this->length * other.length)) * 180 / M_PI;
+	return ((*this * other) / (this->length * other.length));
 }
 
 std::ostream& operator<<(std::ostream& stream, const my3mVector& vec)
@@ -81,6 +86,7 @@ std::istream& operator>>(std::istream& stream, my3mVector& vec)
 	stream >> vec.numbers[0];
 	stream >> vec.numbers[1];
 	stream >> vec.numbers[2];
+	vec.countLength();
 	return stream;
 }
 

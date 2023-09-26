@@ -24,6 +24,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& stream, const my3mVector& vec);
 	friend std::istream& operator>>(std::istream& stream, my3mVector& vec);
 	void countLength();
+	float getLength();
 	float vectorCos(my3mVector& other);
 };
 

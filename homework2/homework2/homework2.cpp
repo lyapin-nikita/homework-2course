@@ -39,6 +39,8 @@ int main()
     cout << test3 + test4 << endl;
     cout << test3 - test4 << endl;
     cout << test3 * test4 << endl;
+    cout << test3.getLength() << endl;
+    cout << test4.getLength() << endl;
     try { cout << test3.vectorCos(test4); }
     catch (...) { cout << "error: divide into 0!"; }
 
