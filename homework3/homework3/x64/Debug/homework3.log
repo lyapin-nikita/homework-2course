@@ -1,0 +1,5 @@
+﻿  main.cpp
+D:\project_programming\project_vs22\homework\3sem\homework3\homework3\main.cpp(8,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+  vector.cpp
+  Создание кода...
+  homework3.vcxproj -> D:\project_programming\project_vs22\homework\3sem\homework3\x64\Debug\homework3.exe
