@@ -9,23 +9,36 @@ template <typename obj>
 class myVector
 {
 private:
+
 	uint16_t size;
 	obj* vec;
+
 public:
+
 	myVector();
 	myVector(uint16_t size);
 	myVector(const myVector <obj>& other);
 	myVector <obj> operator+ (const myVector <obj> other);
 	myVector <obj> operator- (const myVector <obj>& other);
-	double operator* (const myVector <obj>& other);S
-	double countLength();
+	double operator* (const myVector <obj>& other);
 	bool operator==(const myVector <obj>& other);
 	bool operator!=(const myVector <obj>& other);
 	myVector <obj> operator= (const myVector <obj>& other);
-	~myVector();
 	friend std::istream& operator>>(std::istream& in, myVector<obj> vec);
-	friend std::ostream& operator<<(std::ostream& out, const myVector<obj> vec);
+	friend std::ostream& operator<<(std::ostream& out, myVector<obj>& vec);
+	
+	~myVector();
 };
+
+
+
+
+
+
+
+
+
+
 
 template<typename obj>
 inline myVector<obj>::myVector()
@@ -57,6 +70,44 @@ inline myVector<obj> myVector<obj>::operator+(const myVector<obj> other)
 	myVector <obj> result(this->size);
 	for (uint16_t i = 0; i < this->size; ++i) { result.vec[i] = other.size[i] + this->vec[i]; }
 	return result;
+}
+
+template<typename obj>
+inline myVector<obj> myVector<obj>::operator-(const myVector<obj>& other)
+{
+	if (this->size != other.size) { throw - 1; }
+	myVector <obj> result(this->size);
+	for (uint16_t i = 0; i < this->size; ++i) { result.vec[i] = other.size[i] - this->vec[i]; }
+	return result;
+}
+
+template<typename obj>
+inline double myVector<obj>::operator*(const myVector<obj>& other)
+{
+	if (this->size != other.size) { throw - 1; }
+	double result(0);
+	for (uint16_t i = 0; i < this->size; ++i) { result += this->vec[i] * other.vec[i]; }
+	return result;
+}
+
+template<typename obj>
+inline bool myVector<obj>::operator==(const myVector<obj>& other)
+{
+	if (this->size != other.size) { return false; }
+	for (uint16_t i = 0; i < this->size; ++i) { if (this->vec[i] != other.vec[i]) { return false; } }
+	return true;
+}
+
+template<typename obj>
+inline bool myVector<obj>::operator!=(const myVector<obj>& other)
+{
+	return !(*this == other);
+}
+
+template<typename obj>
+inline myVector<obj> myVector<obj>::operator=(const myVector<obj>& other)
+{
+	return myVector<obj>(other);
 }
 
 template<typename obj>
