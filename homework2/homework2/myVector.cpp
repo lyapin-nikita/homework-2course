@@ -69,7 +69,7 @@ float my3mVector::vectorCos(my3mVector& other)
 
 std::ostream& operator<<(std::ostream& stream, const my3mVector& vec)
 {
-	stream << "vector: ";
+	stream << "vector: " << endl;
 	for (int i = 0; i < 3; i++)
 	{
 		stream << vec.numbers[i];
