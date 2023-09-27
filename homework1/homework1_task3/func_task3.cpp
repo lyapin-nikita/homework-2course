@@ -27,30 +27,37 @@ void printMas(int* mas, uint16_t size)
 	cout << endl;
 }
 
+int unique(int* mas, uint16_t size)
+{
+    int result(0);
+    bool isDublicate(false);
+    for (uint16_t i(0); i < size; ++i)
+    {
+        isDublicate = false;
+        for (uint16_t j(0); j < i; ++j)
+        {
+            if (mas[j] == mas[i]) { isDublicate = true; break; }
+        }
+        
+        if (isDublicate == false) { result++; };
+    }
+    return result;
+}
+
 int* func(int* nums, int size, int& newSize)
 {
-    int* result = new int[size];
-    int index = 0;
-
-    for (int i = 0; i < size; ++i)
+    int* result = new int[newSize];
+    int index(0);
+    bool isDublicate(false);
+    for (uint16_t i(0); i < size; ++i)
     {
-        bool isDuplicate = false;
-
-        for (int j = 0; j < index; ++j)
+        isDublicate = false;
+        for (uint16_t j(0); j < i; ++j)
         {
-            if (nums[i] == result[j])
-            {
-                isDuplicate = true;
-                break;
-            }
+            if (nums[j] == nums[i]) { isDublicate = true; break; }
         }
 
-        if (!isDuplicate) {
-            result[index] = nums[i];
-            ++index;
-        }
+        if (isDublicate == false) { result[index] = nums[i]; index++; }
     }
-
-    newSize = index;
     return result;
 }
