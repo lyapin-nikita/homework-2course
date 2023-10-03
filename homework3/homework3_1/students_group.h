@@ -1,47 +1,50 @@
 #pragma once
 
 #include "include.h"
+using namespace std;
 
+
+struct student
+{
+	struct fullName
+	{
+		string name;
+		string surname;
+		string patherName;
+		//перегрузка вывода
+	};
+
+	struct dateOfBirth
+	{
+		short day;
+		short month;
+		short year;
+		//перегрузка вывода
+		//метод получения месяца как слова
+	};
+
+	struct numberOfPhone
+	{
+		std::string num;
+	};
+
+	fullName FN;
+	dateOfBirth DB;
+	numberOfPhone NP;
+	short index;
+
+	friend istream& operator>>(std::istream& in, student& Student);
+	friend ostream& operator<<(std::ostream& out, const student& Student);
+	//перегрузка вывода
+	//перегрузка ввода
+
+};
 
 
 class studentsGroup
 {
 
 private:
-
-
-	struct student
-	{
-		struct fullName
-		{
-			string name;
-			string surname;
-			string patherName;
-			//перегрузка вывода
-		};
-
-		struct dateOfBirth
-		{
-			short day;
-			short month;
-			short year;
-			//перегрузка вывода
-			//метод получения месяца как слова
-		};
-
-		struct numberOfPhone
-		{
-			string num;
-		};
-
-		fullName FN;
-		dateOfBirth DB;
-		numberOfPhone NP;
-		short index;
-		//перегрузка вывода
-		
-	};
-
 	student* group;
 	short size;
 
@@ -57,8 +60,8 @@ public:
 
 	short getSize();
 
-	void addStudent();
-	void addSameStudents(short addSize);
+	void addStudent(student& newStudent);
+	void addSameStudents(short addSize, student* masOfNewStudent);
 	void delStudent(short index);
 	short srhStudent_FullName();
 	short srhStudent_DayOfBirth();
