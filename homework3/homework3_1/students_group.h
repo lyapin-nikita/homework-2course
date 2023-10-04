@@ -1,4 +1,5 @@
 #pragma once
+#define EMPTY 0
 
 #include "include.h"
 using namespace std;
@@ -47,8 +48,9 @@ class studentsGroup
 private:
 	student* group;
 	short size;
+	string nameGroup;
 
-
+	short srhStudent_Index(student* mas, short size, short index);
 
 public:
 	studentsGroup(); //default 
@@ -67,4 +69,5 @@ public:
 	short srhStudent_DayOfBirth();
 	short srhStudent_PhoneNumber(string phone);
 	
+	friend ostream& operator<<(std::ostream& out, const studentsGroup& Group);
 };

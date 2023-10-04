@@ -44,17 +44,30 @@ ostream& operator<<(std::ostream& out, const student& Student)
 
 
 
+
+
+short studentsGroup::srhStudent_Index(student* mas, short size, short index)
+{
+	for (short i = 0; i < size; ++i)
+	{
+		if (mas[i].index == index) return i;
+	}
+	return -1;
+}
+
 //class
 studentsGroup::studentsGroup()
 {
 	this->size = 0;
 	this->group = nullptr;
+	this->nameGroup = "EMPTY";
 }
 
 studentsGroup::studentsGroup(const studentsGroup& otherGroup)
 {
 	this->size = otherGroup.size;
 	this->group = otherGroup.group;
+	this->nameGroup = otherGroup.nameGroup;
 }
 
 studentsGroup::~studentsGroup()
@@ -86,3 +99,37 @@ void studentsGroup::addSameStudents(short addSize, student* masOfNewStudent)
 	group = newGroup;
 }
 
+void studentsGroup::delStudent(short index)
+{
+	bool found = false;
+
+	// ѕоиск студента по заданному индексу
+	for (int i = 0; i < size; i++) {
+		if (group[i].index == index) {
+			found = true;
+
+			// ”дал€ем найденного студента и создаем новый массив студентов
+			for (int j = i; j < size - 1; j++) {
+				group[j] = group[j + 1];
+			}
+			size--;
+
+			break;
+		}
+	}
+
+	// ≈сли студент не найден, выбрасываем исключение
+	if (!found) {
+		throw std::runtime_error("—тудент с указанным индексом не найден.");
+	}
+}
+
+ostream& operator<<(std::ostream& out, const studentsGroup& Group)
+{
+	out << "The group " << Group.nameGroup << ". Here is " << Group.size << " students." << endl;
+	if (Group.size != EMPTY) 
+	{
+		for (short i = 0; i < Group.size; ++i) { out << i << "	" << Group.group[i] << endl << endl; }
+	}
+	return out;
+}
