@@ -118,10 +118,101 @@ void studentsGroup::delStudent(short index)
 		}
 	}
 
-	// Если студент не найден, выбрасываем исключение
 	if (!found) {
-		throw std::runtime_error("Студент с указанным индексом не найден.");
+		throw runtime_error("Студент с указанным индексом не найден.");
 	}
+}
+
+short studentsGroup::srhStudent_FullName(string surname, string name, string fathername)
+{	
+	int countOfSimillarStudents = 0;
+	int countFIO = 0;
+	short indexOfStudent;
+	bool haveStudent = false;
+	for (int i = 0; i < size; i++)
+	{
+
+		if (group[i].FN.name == name)
+		{
+			countFIO++;
+		}
+		if (group[i].FN.surname == surname)
+		{
+			countFIO++;
+		}
+		if (group[i].FN.patherName == fathername)
+		{
+			countFIO++;
+		}
+
+		if (countFIO == 3) { countOfSimillarStudents++; haveStudent = true; indexOfStudent = group[i].index; }
+	}
+
+	if (haveStudent == false) 
+	{
+		throw runtime_error("Студент с указанными данными не найден.");
+	}
+
+	if (countOfSimillarStudents > 1)
+	{
+		throw runtime_error("В группе имеются несколько людей с индентичными данными");
+	}
+
+	return indexOfStudent;
+}
+
+short studentsGroup::srhStudent_DayOfBirth(short day, short month, short year)
+{
+	int countOfSimillarStudents = 0;
+	int countDB = 0;
+	short indexOfStudent;
+	bool haveStudent = false;
+	for (int i = 0; i < size; i++)
+	{
+
+		if (group[i].DB.day == day)
+		{
+			countDB++;
+		}
+		if (group[i].DB.month == month)
+		{
+			countDB++;
+		}
+		if (group[i].DB.year == year)
+		{
+			countDB++;
+		}
+
+		if (countDB == 3) { countOfSimillarStudents++; haveStudent = true; indexOfStudent = group[i].index; }
+	}
+
+	if (haveStudent == false)
+	{
+		throw runtime_error("Студент с указанными данными не найден.");
+	}
+
+	if (countOfSimillarStudents > 1)
+	{
+		throw runtime_error("В группе имеются несколько людей с идентичными данными");
+	}
+
+	return indexOfStudent;
+}
+
+short studentsGroup::srhStudent_PhoneNumber(string phone)
+{
+	short indexOfStudent;
+	for (int i = 0; i < size; i++)
+	{
+
+		if (group[i].NP.num == phone)
+		{
+			return group[i].index;
+		}
+
+	}
+
+	throw runtime_error("Студент с указанными данными не найден.");
 }
 
 ostream& operator<<(std::ostream& out, const studentsGroup& Group)

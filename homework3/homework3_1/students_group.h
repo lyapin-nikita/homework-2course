@@ -65,8 +65,8 @@ public:
 	void addStudent(student& newStudent);
 	void addSameStudents(short addSize, student* masOfNewStudent);
 	void delStudent(short index);
-	short srhStudent_FullName();
-	short srhStudent_DayOfBirth();
+	short srhStudent_FullName(string surname, string name, string fathername);
+	short srhStudent_DayOfBirth(short day, short month, short year);
 	short srhStudent_PhoneNumber(string phone);
 	
 	friend ostream& operator<<(std::ostream& out, const studentsGroup& Group);

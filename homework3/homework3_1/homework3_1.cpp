@@ -17,6 +17,8 @@ int main()
     testGroup1.addStudent(test1);
     testGroup1.addStudent(test2);
     testGroup1.delStudent(53);
+    cout << endl;
+    cout << testGroup1.srhStudent_FullName("Lyapin", "Nikita", "Alex");
 
     cout << testGroup1;
 }
