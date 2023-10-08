@@ -39,6 +39,10 @@ ostream& operator<<(std::ostream& out, const student& Student)
 	return out;
 }
 
+student::student()
+{
+
+}
 
 
 
@@ -58,9 +62,38 @@ short studentsGroup::srhStudent_Index(student* mas, short size, short index)
 //class
 studentsGroup::studentsGroup()
 {
-	this->size = 0;
-	this->group = nullptr;
-	this->nameGroup = "EMPTY";
+	FILESTREAM.open("studentsData.txt", fstream::in | fstream::out | fstream::app);
+	if (!FILESTREAM.is_open()) { cout << "error"; }
+	else
+	{
+		cout << "file successfully opened!";
+		short count = 0;
+		string line;
+		string word;
+		while (getline(FILESTREAM, line)) { count++; }
+		size = count;
+		group = new student[size];
+		FILESTREAM.seekg(0, ios::beg);
+		for (short i = 0; i < size; ++i)
+		{
+			count = 0;
+			getline(FILESTREAM, line);
+			stringstream stringStream(line);
+			while (stringStream >> word)
+			{
+				count++;
+				if (count == 1) group[i].FN.surname = word;
+				if (count == 2) group[i].FN.name = word;
+				if (count == 3) group[i].FN.patherName = word;
+				if (count == 4) group[i].DB.day = stoi(word);
+				if (count == 5) group[i].DB.month = stoi(word);
+				if (count == 6) group[i].DB.year = stoi(word);
+				if (count == 7) group[i].NP.num = word;
+				if (count == 8) group[i].index = stoi(word);
+			}
+		}
+	}
+	
 }
 
 studentsGroup::studentsGroup(const studentsGroup& otherGroup)
@@ -72,6 +105,7 @@ studentsGroup::studentsGroup(const studentsGroup& otherGroup)
 
 studentsGroup::~studentsGroup()
 {
+	FILESTREAM.close();
 	delete[] group;
 }
 
@@ -224,3 +258,4 @@ ostream& operator<<(std::ostream& out, const studentsGroup& Group)
 	}
 	return out;
 }
+

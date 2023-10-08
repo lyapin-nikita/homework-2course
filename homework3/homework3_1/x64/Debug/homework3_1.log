@@ -1,4 +1,5 @@
 ﻿  homework3_1.cpp
   students_group.cpp
+D:\project_programming\project_vs22\homework\3sem\homework3\homework3_1\students_group.cpp(234,8): warning C4101: indexOfStudent: неиспользованная локальная переменная
   Создание кода...
   homework3_1.vcxproj -> D:\project_programming\project_vs22\homework\3sem\homework3\x64\Debug\homework3_1.exe

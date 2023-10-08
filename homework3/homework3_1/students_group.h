@@ -29,6 +29,7 @@ struct student
 		std::string num;
 	};
 
+	student(); //написать конструктор по умолчанию
 	fullName FN;
 	dateOfBirth DB;
 	numberOfPhone NP;
@@ -49,7 +50,7 @@ private:
 	student* group;
 	short size;
 	string nameGroup;
-
+	fstream FILESTREAM;
 	short srhStudent_Index(student* mas, short size, short index);
 
 public:
