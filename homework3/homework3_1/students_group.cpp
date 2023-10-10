@@ -29,19 +29,31 @@ istream& operator>>(std::istream& in, student& Student)
 
 ostream& operator<<(std::ostream& out, const student& Student)
 {
-	out << "student " << Student.index << endl;
-	out << Student.FN.surname << " " << Student.FN.name << " " << Student.FN.patherName << endl;
-	out << Student.DB.day << ".";
-	if (Student.DB.month < 10) { out << '0'; }
-	out << Student.DB.month << "." << Student.DB.year << endl;
-	out << Student.NP.num;
+	out << Student.FN.surname << " ";
+	out << Student.FN.name << " ";
+	out << Student.FN.patherName << " ";
+	out << Student.DB.day << " ";
+	out << Student.DB.month << " ";
+	out << Student.DB.year << " ";
+	out << Student.NP.num << " ";
+	out << Student.index << endl;
 
 	return out;
 }
 
 student::student()
 {
+	FN.name = "EMPTYNAME";
+	FN.surname = "EMPTYSURNAME";
+	FN.patherName = "EMPTYLASTNAME";
 
+	DB.day = 1;
+	DB.month = 1;
+	DB.year = 1990;
+
+	NP.num = "00000000000";
+
+	index = 0;
 }
 
 
@@ -63,37 +75,49 @@ short studentsGroup::srhStudent_Index(student* mas, short size, short index)
 studentsGroup::studentsGroup()
 {
 	FILESTREAM.open("studentsData.txt", fstream::in | fstream::out | fstream::app);
-	if (!FILESTREAM.is_open()) { cout << "error"; }
-	else
+
+	if (!FILESTREAM.is_open())
 	{
-		cout << "file successfully opened!";
-		short count = 0;
-		string line;
+		cerr << "Не удалось открыть файл." << endl;
+	}
+
+	string line;
+	size = 0;
+
+	while (getline(FILESTREAM, line)) {
+		size++;
+	}
+
+	group = new student[size];
+	FILESTREAM.clear();
+	FILESTREAM.seekg(0, ios::beg);
+
+	for (short i = 0; i < size; ++i) {
+		getline(FILESTREAM, line);
+		istringstream stringStream(line);
 		string word;
-		while (getline(FILESTREAM, line)) { count++; }
-		size = count;
-		group = new student[size];
-		FILESTREAM.seekg(0, ios::beg);
-		for (short i = 0; i < size; ++i)
-		{
-			count = 0;
-			getline(FILESTREAM, line);
-			stringstream stringStream(line);
-			while (stringStream >> word)
-			{
-				count++;
-				if (count == 1) group[i].FN.surname = word;
-				if (count == 2) group[i].FN.name = word;
-				if (count == 3) group[i].FN.patherName = word;
-				if (count == 4) group[i].DB.day = stoi(word);
-				if (count == 5) group[i].DB.month = stoi(word);
-				if (count == 6) group[i].DB.year = stoi(word);
-				if (count == 7) group[i].NP.num = word;
-				if (count == 8) group[i].index = stoi(word);
-			}
+		short count = 0;
+
+		while (stringStream >> word) {
+			count++;
+			if (count == 1)
+				group[i].FN.surname = word;
+			else if (count == 2)
+				group[i].FN.name = word;
+			else if (count == 3)
+				group[i].FN.patherName = word;
+			else if (count == 4)
+				group[i].DB.day = std::stoi(word);
+			else if (count == 5)
+				group[i].DB.month = std::stoi(word);
+			else if (count == 6)
+				group[i].DB.year = std::stoi(word);
+			else if (count == 7)
+				group[i].NP.num = word;
+			else if (count == 8)
+				group[i].index = std::stoi(word);
 		}
 	}
-	
 }
 
 studentsGroup::studentsGroup(const studentsGroup& otherGroup)
@@ -113,7 +137,7 @@ studentsGroup::~studentsGroup()
 
 short studentsGroup::getSize() { return this->size; }
 
-void studentsGroup::addStudent(student& newStudent)
+void studentsGroup::addStudent(const student& newStudent)
 {
 	student* newGroup = new student[size+1];
 	for (short i = 0; i < size; ++i) { newGroup[i] = group[i]; }
@@ -121,6 +145,9 @@ void studentsGroup::addStudent(student& newStudent)
 	size++;
 	delete[] group;
 	group = newGroup;
+	
+	FILESTREAM.seekg(0, std::ios::end);
+	FILESTREAM << newStudent << endl;
 }
 
 void studentsGroup::addSameStudents(short addSize, student* masOfNewStudent)
@@ -138,12 +165,16 @@ void studentsGroup::delStudent(short index)
 	bool found = false;
 
 	// Поиск студента по заданному индексу
-	for (int i = 0; i < size; i++) {
-		if (group[i].index == index) {
+	int i;
+	for (i = 0; i < size; i++)
+	{
+		if (group[i].index == index)
+		{
 			found = true;
 
 			// Удаляем найденного студента и создаем новый массив студентов
-			for (int j = i; j < size - 1; j++) {
+			for (int j = i; j < size - 1; j++)
+			{
 				group[j] = group[j + 1];
 			}
 			size--;
@@ -155,6 +186,50 @@ void studentsGroup::delStudent(short index)
 	if (!found) {
 		throw runtime_error("Студент с указанным индексом не найден.");
 	}
+
+
+	/*Для удаления строчки реализую следующий алгоритм
+	Создам временный файл
+	Запишу туда все строчки, пропустив выбранную
+	Удалю исходный файл
+	Переименуем временный файл*/
+
+	//1
+	fstream TMP1("tmp.txt", fstream::in | fstream::out | fstream::app | fstream::trunc);
+	if (!TMP1.is_open())
+	{
+		cerr << "Не удалось создать временный файл!" << endl;
+	}
+
+	//2
+	FILESTREAM.seekg(0, ios::beg);
+	string tmpline;
+	int currentLine = 1;
+	while (getline(FILESTREAM, tmpline))
+	{
+		currentLine++;
+		if (currentLine != (i + 2))
+		{
+			TMP1 << tmpline << endl;
+		}
+	}
+
+	//3
+	FILESTREAM.close();
+	string path = "studentsData.txt";
+	if (remove(path.c_str()) != 0)
+	{
+		cerr << "Не удалось удалить исходный файл!";
+	}
+
+	//4
+	if (rename("tmp.txt", path.c_str()) != 0)
+	{
+		cerr << "Не удалось переименовать временный файл!" << endl;
+	}
+
+	FILESTREAM.open(path, fstream::in | fstream::out | fstream::app);
+	TMP1.close();
 }
 
 short studentsGroup::srhStudent_FullName(string surname, string name, string fathername)

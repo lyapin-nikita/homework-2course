@@ -63,7 +63,7 @@ public:
 
 	short getSize();
 
-	void addStudent(student& newStudent);
+	void addStudent(const student& newStudent);
 	void addSameStudents(short addSize, student* masOfNewStudent);
 	void delStudent(short index);
 	short srhStudent_FullName(string surname, string name, string fathername);

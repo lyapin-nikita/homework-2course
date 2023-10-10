@@ -23,8 +23,14 @@ int main()
     //cout << testGroup1;
 
 
-     studentsGroup testGroup1; 
+     studentsGroup testGroup1;
+     student testStudent1;
      cout << endl << testGroup1.getSize() << endl;
-     cout << testGroup1;
+     cout << testGroup1 << endl;
+     testGroup1.delStudent(3);
+     cout << testGroup1 << endl;
+     
+
+ 
 }
 
