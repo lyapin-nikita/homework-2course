@@ -147,7 +147,7 @@ void studentsGroup::addStudent(const student& newStudent)
 	group = newGroup;
 	
 	FILESTREAM.seekg(0, std::ios::end);
-	FILESTREAM << newStudent << endl;
+	FILESTREAM << newStudent;
 }
 
 void studentsGroup::addSameStudents(short addSize, student* masOfNewStudent)
@@ -158,13 +158,19 @@ void studentsGroup::addSameStudents(short addSize, student* masOfNewStudent)
 	size += addSize;
 	delete[] group;
 	group = newGroup;
+
+	FILESTREAM.seekg(0, std::ios::end);
+	for (short i = 0; i < addSize; ++i)
+	{
+		FILESTREAM << masOfNewStudent[i] << endl;
+	}
 }
 
 void studentsGroup::delStudent(short index)
 {
 	bool found = false;
 
-	// Поиск студента по заданному индексу
+	//// Поиск студента по заданному индексу
 	int i;
 	for (i = 0; i < size; i++)
 	{
@@ -172,7 +178,7 @@ void studentsGroup::delStudent(short index)
 		{
 			found = true;
 
-			// Удаляем найденного студента и создаем новый массив студентов
+			// удаляем найденного студента и создаем новый массив студентов
 			for (int j = i; j < size - 1; j++)
 			{
 				group[j] = group[j + 1];
@@ -183,7 +189,8 @@ void studentsGroup::delStudent(short index)
 		}
 	}
 
-	if (!found) {
+	if (!found)
+	{
 		throw runtime_error("Студент с указанным индексом не найден.");
 	}
 
@@ -195,104 +202,85 @@ void studentsGroup::delStudent(short index)
 	Переименуем временный файл*/
 
 	//1
-	fstream TMP1("tmp.txt", fstream::in | fstream::out | fstream::app | fstream::trunc);
+	fstream TMP1("tmp.txt", fstream::in | fstream::out | fstream::app);
 	if (!TMP1.is_open())
 	{
-		cerr << "Не удалось создать временный файл!" << endl;
+		cerr << "The file wasn't open!" << endl;
 	}
 
 	//2
 	FILESTREAM.seekg(0, ios::beg);
 	string tmpline;
-	int currentLine = 1;
+	int currentLine = 0;
 	while (getline(FILESTREAM, tmpline))
 	{
 		currentLine++;
-		if (currentLine != (i + 2))
+		if (currentLine != (i + 1))
 		{
 			TMP1 << tmpline << endl;
 		}
 	}
 
 	//3
+	TMP1.close();
 	FILESTREAM.close();
-	string path = "studentsData.txt";
-	if (remove(path.c_str()) != 0)
+	string oldpath = "studentsData.txt";
+	string newpath = "tmp.txt";
+	if (remove(oldpath.c_str()) != 0)
 	{
-		cerr << "Не удалось удалить исходный файл!";
+		cerr << "Original file wasn't delete!";
 	}
 
 	//4
-	if (rename("tmp.txt", path.c_str()) != 0)
+	if (rename(newpath.c_str(), oldpath.c_str()) != 0)
 	{
-		cerr << "Не удалось переименовать временный файл!" << endl;
+		cerr << "Temperary file wasn't rename!" << endl;
 	}
 
-	FILESTREAM.open(path, fstream::in | fstream::out | fstream::app);
-	TMP1.close();
+	FILESTREAM.open(oldpath, fstream::in | fstream::out | fstream::app);
 }
 
 short studentsGroup::srhStudent_FullName(string surname, string name, string fathername)
 {	
 	int countOfSimillarStudents = 0;
-	int countFIO = 0;
-	short indexOfStudent;
+	short indexOfStudent = -1;
 	bool haveStudent = false;
 	for (int i = 0; i < size; i++)
 	{
-
-		if (group[i].FN.name == name)
+		if ((group[i].FN.name == name) && (group[i].FN.surname == surname) && (group[i].FN.patherName == fathername))
 		{
-			countFIO++;
+			haveStudent = true;
+			countOfSimillarStudents++;
+			indexOfStudent = i;
 		}
-		if (group[i].FN.surname == surname)
-		{
-			countFIO++;
-		}
-		if (group[i].FN.patherName == fathername)
-		{
-			countFIO++;
-		}
-
-		if (countFIO == 3) { countOfSimillarStudents++; haveStudent = true; indexOfStudent = group[i].index; }
 	}
 
 	if (haveStudent == false) 
 	{
 		throw runtime_error("Студент с указанными данными не найден.");
 	}
-
 	if (countOfSimillarStudents > 1)
 	{
-		throw runtime_error("В группе имеются несколько людей с индентичными данными");
+		throw runtime_error("В группе имеются несколько людей с идентичными данными");
 	}
 
-	return indexOfStudent;
+
+	return group[indexOfStudent].index;
 }
 
 short studentsGroup::srhStudent_DayOfBirth(short day, short month, short year)
 {
 	int countOfSimillarStudents = 0;
-	int countDB = 0;
-	short indexOfStudent;
+	short indexOfStudent = -1;
 	bool haveStudent = false;
 	for (int i = 0; i < size; i++)
 	{
-
-		if (group[i].DB.day == day)
+		if ((group[i].DB.day == day) && (group[i].DB.month == month) && (group[i].DB.year == year))
 		{
-			countDB++;
+			haveStudent = true;
+			countOfSimillarStudents++;
+			indexOfStudent = i;
 		}
-		if (group[i].DB.month == month)
-		{
-			countDB++;
-		}
-		if (group[i].DB.year == year)
-		{
-			countDB++;
-		}
-
-		if (countDB == 3) { countOfSimillarStudents++; haveStudent = true; indexOfStudent = group[i].index; }
 	}
 
 	if (haveStudent == false)
@@ -305,7 +293,7 @@ short studentsGroup::srhStudent_DayOfBirth(short day, short month, short year)
 		throw runtime_error("В группе имеются несколько людей с идентичными данными");
 	}
 
-	return indexOfStudent;
+	return group[indexOfStudent].index;
 }
 
 short studentsGroup::srhStudent_PhoneNumber(string phone)
